@@ -1,0 +1,67 @@
+/*
+PROBLEM STATEMENT: You are given an m x n binary matrix grid. An island is a group of 1's (representing land) 
+connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
+The area of an island is the number of cells with a value 1 in the island.
+Return the maximum area of an island in grid. If there is no island, return 0
+*/
+
+
+int findArea(vector<vector<int>>& map, int rw, int col, int x, int y)
+    {
+        int area = 0;
+        int dx[4] = {0, 0, 1, -1};
+        int dy[4] = {1, -1, 0, 0};
+        
+        queue<pair<int,int>> q;
+        q.push({x, y});
+        area = area + map[x][y];
+        
+        while(!q.empty())
+        {
+            auto[r, c] = q.front();
+            q.pop();
+            map[r][c] = 0;
+            
+            for(int i = 0; i < 4; i++)
+            {
+                int di = r + dx[i];
+                int dj = c + dy[i];
+                
+                if(di >= 0 && dj >= 0 && di < rw && dj < col && map[di][dj] == 1)
+                {
+                    q.push({di, dj});
+                    area = area + map[di][dj];
+                    map[di][dj] = 0;
+                }
+            }
+            
+        }
+        
+        return area;
+    }
+    
+    int maxAreaOfIsland(vector<vector<int>>& grid)
+    {
+        int maxArea = 0;
+        int rows = grid.size();
+        int columns = grid[0].size();
+        int tempArea;
+        
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < columns; j++)
+            {
+                if( grid[i][j] == 1 )
+                {
+                    tempArea = findArea(grid, rows, columns, i, j);
+                    
+                    if( tempArea > maxArea )
+                    {
+                        maxArea = tempArea;
+                    }
+                }
+            }
+        }
+        
+        return maxArea;
+    }
