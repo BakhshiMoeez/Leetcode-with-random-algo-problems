@@ -1,0 +1,45 @@
+/*
+Problem statement: Write a recursive function to reverse a stack
+*/
+
+// Stack STL is used
+
+// Helper Function to Print a Stack
+void printStack(stack<int> temp)
+{
+	int val = 0;
+
+	while (!temp.empty())
+	{
+		val = temp.top();
+		cout << val << " ";
+		temp.pop();
+	}
+}
+
+void insertAtBottom(stack<int>& s, int temp)
+{
+	if (s.empty())
+	{
+		s.push(temp);
+		return;
+	}
+
+	int val = s.top();
+	s.pop();
+	insertAtBottom(s, temp);
+	s.push(val);
+}
+
+void reverseStack(stack<int>& s)
+{
+	if (s.empty())
+	{
+		return;
+	}
+
+	int temp = s.top();
+	s.pop();
+	reverseStack(s);
+	insertAtBottom(s, temp);
+}
