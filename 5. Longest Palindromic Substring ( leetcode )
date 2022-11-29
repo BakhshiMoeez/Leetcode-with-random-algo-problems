@@ -1,0 +1,71 @@
+string longestPalindrome(string s) 
+    {
+        int size = s.size();
+        
+        int left = 0, rigth = 0;
+        
+        int start = 0, end = 0;
+        
+        int length = 0, maxLength = 0;
+        
+        // ODD Palindromes
+        for(int i = 0; i < size; i++)
+        {
+            left = i;
+            rigth = i;
+            
+            while( left >= 0 && rigth < size )
+            {
+                if(s[left] == s[rigth])
+                {
+                    left--;
+                    rigth++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            length = rigth-left-1;
+            
+            if(length > maxLength)
+            {
+                maxLength = length;
+                start = left + 1;
+                end = rigth - 1;
+            }
+        }
+        
+        // EVEN Palindromes
+        for(int i = 0; i < size; i++)
+        {
+            left = i;
+            rigth = i+1;
+            
+            while( left >= 0 && rigth < size )
+            {
+                if(s[left] == s[rigth])
+                {
+                    left--;
+                    rigth++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            length = rigth-left-1;
+            
+            if(length > maxLength)
+            {
+                maxLength = length;
+                start = left + 1;
+                end = rigth - 1;
+            }
+        }
+        
+        return s.substr(start, maxLength);
+        
+    }
