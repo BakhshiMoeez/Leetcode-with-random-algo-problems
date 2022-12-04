@@ -1,0 +1,67 @@
+ListNode* mergeTwoLinklist(ListNode* left, ListNode* right)
+    {
+        ListNode* head = new ListNode(0);
+        ListNode* temp = head;
+        
+        while(left != nullptr && right != nullptr)
+        {
+            if(left->val < right->val)
+            {
+                temp->next = left;
+                left = left->next;
+                temp = temp->next;
+            }
+            else
+            {
+                temp->next = right;
+                right = right->next;
+                temp = temp->next;
+            }    
+        }
+        
+        if( left == nullptr )
+        {
+            temp->next = right;
+        }
+        else
+        {
+            temp->next = left;    
+        }
+        
+        return head->next;
+        
+    }
+    
+    ListNode* findMid(ListNode* root)
+    {
+        ListNode* slow = root;
+        ListNode* fast = root->next;
+        
+        while(fast != nullptr && fast->next != nullptr)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        return slow;
+    }
+    
+     ListNode* sortList(ListNode* head) {
+         if (head == nullptr || head->next == nullptr)
+            return head;
+        
+         // breaking the linklist on 2 halves
+         ListNode* mid = findMid(head);
+         
+         ListNode* left = head;
+         ListNode* right = mid->next;
+         mid->next = nullptr;
+         
+         // Mergind the two halves
+         left = sortList(left);
+         right = sortList(right);
+         
+         ListNode* result = mergeTwoLinklist(left, right);
+         
+         return result;
+    }
