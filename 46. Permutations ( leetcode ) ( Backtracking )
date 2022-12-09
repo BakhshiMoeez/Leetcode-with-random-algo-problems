@@ -1,0 +1,26 @@
+    void backtrackPermutations(vector<vector<int>>& result,vector<int> nums, unordered_map<int, bool> umap, vector<int> pair)
+    {
+        if(pair.size() == nums.size())
+            result.push_back(pair);
+
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(umap.find(nums[i]) == umap.end() || !umap[nums[i]])
+            {
+                umap[nums[i]] = true;
+                pair.push_back(nums[i]);
+                backtrackPermutations(result, nums, umap, pair);
+                pair.pop_back();
+                umap[nums[i]] = false;
+            }
+        }
+    }
+
+    vector<vector<int>> permute(vector<int>& nums) 
+    {
+        vector<vector<int>> result;
+        unordered_map<int, bool> umap;
+        vector<int> pair;
+        backtrackPermutations(result, nums, umap, pair);
+        return result;
+    }
