@@ -1,0 +1,33 @@
+bool canVisitAllRooms(vector<vector<int>>& rooms) 
+    {
+        int size = rooms.size();
+        queue<int> q;
+        q.push(0);
+
+        vector<bool> canBeVisited(size, false);
+        while(!q.empty())
+        {
+            int temp = q.front();
+            q.pop();
+            canBeVisited[temp] = true;
+            vector<int> temp2 = rooms[temp];
+
+            for(int i = 0; i < temp2.size(); i++)
+            {
+                if(canBeVisited[temp2[i]] == false)
+                {
+                    q.push(temp2[i]);
+                }
+            }
+        }
+
+        // for(int j = 0; j < size; j++)
+        // {
+        //     if(canBeVisited[j] == false)
+        //         return false;
+        // }
+        
+        return count( canBeVisited.begin(), canBeVisited.end(), true ) == rooms.size();
+        
+        // return true;
+    }
