@@ -1,0 +1,44 @@
+vector<string> combinations(vector<string> result, string digits, unordered_map<string, vector<string>> umap)
+    {
+        if(digits.size() == 1)
+        {
+            return umap[digits];
+        }
+
+        char ch = digits[0];
+        digits.erase(digits.begin());
+
+        vector<string> temp1 = combinations(result, digits, umap);
+        
+        string s(1, ch);
+        vector<string> temp2 = umap[s];
+        
+        for(int i = 0; i < temp2.size(); i++)
+        {
+            for(int j = 0; j < temp1.size(); j++)
+            {
+                string ss = temp2[i] + temp1[j];
+                result.push_back(ss);
+            }
+        }
+
+        return result;
+    }
+
+    vector<string> letterCombinations(string digits) {
+        if(digits.size() == 0) return {};
+        
+        unordered_map<string, vector<string>> umap;
+        umap["2"] = {"a", "b", "c"};
+        umap["3"] = {"d", "e", "f"};
+        umap["4"] = {"g", "h", "i"};
+        umap["5"] = {"j", "k", "l"};
+        umap["6"] = {"m", "n", "o"};
+        umap["7"] = {"p", "q", "r", "s"};
+        umap["8"] = {"t", "u", "v"};
+        umap["9"] = {"w", "x", "y", "z"};
+        
+        vector<string> result;
+        result = combinations(result, digits, umap);
+        return result;
+    }
