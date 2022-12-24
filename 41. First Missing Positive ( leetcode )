@@ -1,0 +1,40 @@
+   int counter = 0;
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if (nums[i] == 1)
+            {
+                counter++;
+                break;
+            }
+        }   
+        
+        if(counter == 0)
+        {
+            return 1;
+        }
+
+        if(nums.size() == 1) return 2;
+
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(nums[i] <= 0 || nums[i] > nums.size())
+                nums[i] = 1;
+        }
+
+        for(int i = 0; i < nums.size(); i++)
+        {
+            int temp = abs(nums[i]);
+            if(nums[temp - 1] > 0)
+            {
+                nums[temp - 1] = nums[temp - 1] * -1;
+            }
+        }
+
+        for(int k = 0; k < nums.size(); k++)
+        {
+            if(nums[k] > 0)
+                return k + 1;
+        }
+
+        return nums.size() + 1;
+    }
