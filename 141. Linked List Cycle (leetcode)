@@ -1,0 +1,18 @@
+ bool hasCycle(ListNode *head) {
+        ListNode *temp = head;
+        unordered_map<ListNode*, int> umap;
+        while(true)
+        {
+            if(temp != nullptr)
+            {
+                umap[temp] = 1;
+                temp = temp->next;
+                if(umap.find(temp) != umap.end())
+                    return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
