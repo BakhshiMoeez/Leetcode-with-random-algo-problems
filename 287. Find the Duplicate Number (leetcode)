@@ -1,0 +1,54 @@
+int findDuplicate(vector<int>& nums) 
+    {
+        // ===== Hare and tortoise approach ( detecting a cycle )
+        int slow, fast;
+        slow = fast = nums[0];
+
+        do{
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }while(slow != fast);
+
+        fast = nums[0];
+        while(slow != fast)
+        {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+
+        return slow;
+        // ====== Binary Search Approch ===== (somehow it works but i dont know how)
+        // int low = 0, high = nums.size() - 1, cnt;
+        
+        // while(low <= high)
+        // {
+        //     int mid = low + (high - low) / 2;
+        //     cnt = 0;
+        //     // cnt number less than equal to mid
+        //     for(int n : nums)
+        //     {
+        //         if(n <= mid)
+        //             ++cnt;
+        //     }
+        //     // binary search on left
+        //     if(cnt <= mid)
+        //         low = mid + 1;
+        //     else
+        //     // binary search on right
+        //         high = mid - 1;
+            
+        // }
+        // return low;
+
+        // ================ BRUTE FORCE SOLUTION ===========
+        // int result;
+        // for(int i = 0; i < nums.size() - 1; i++)
+        // {
+        //     for(int j = i + 1; j < nums.size(); j++)
+        //     {
+        //         if(nums[i] == nums[j])
+        //             result = nums[i];
+        //     }
+        // }
+
+        // return result;
