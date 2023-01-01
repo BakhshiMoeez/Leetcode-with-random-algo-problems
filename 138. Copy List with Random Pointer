@@ -1,0 +1,30 @@
+Node* copyRandomList(Node* head) 
+    {
+        if(head == nullptr) return nullptr;
+        
+        unordered_map<Node*,Node*> umap;
+
+        Node *root = new Node(0);
+        Node *ans = root;
+        Node *headTemp = head;
+
+        while(head != nullptr)
+        {
+            root->next = new Node(head->val);
+            root = root->next;
+            umap[head] = root;
+            head = head->next;
+        }
+
+        ans = ans->next;
+        Node *temp = ans;
+
+        while(temp != nullptr)
+        {
+            temp->random = umap[headTemp->random];
+            temp = temp->next;
+            headTemp = headTemp->next;
+        }
+
+        return ans;
+    }
