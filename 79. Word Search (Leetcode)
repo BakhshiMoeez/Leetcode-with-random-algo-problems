@@ -1,0 +1,40 @@
+void helperFunction(vector<vector<char>>& board, string word, bool &flag, int counter, int i, int j)
+    {
+        if(counter == word.size())
+        {
+            flag = true;
+            return;
+        }
+        
+        if(i == board.size() || j == board[0].size() || i < 0 || j < 0 || 
+        board[i][j] != word[counter]) return;
+
+        char ch = board[i][j];
+        board[i][j] = '#';
+
+        helperFunction(board, word, flag, counter + 1,  i + 1, j);
+        helperFunction(board, word, flag, counter + 1,  i, j + 1);
+        helperFunction(board, word, flag, counter + 1,  i - 1, j);
+        helperFunction(board, word, flag, counter + 1,  i, j - 1);
+
+        board[i][j] = ch;
+        return;
+    }
+
+    bool exist(vector<vector<char>>& board, string word) 
+    {
+        bool flag = false;
+        int counter = 0;
+        for(int i = 0; i < board.size(); i++)
+        {
+            for(int j = 0; j < board[0].size(); j++)
+            {
+                if(board[i][j] == word[0])
+                {
+                    helperFunction(board, word, flag, counter, i, j);
+                }
+            }
+        }
+
+        return flag;    
+    }
