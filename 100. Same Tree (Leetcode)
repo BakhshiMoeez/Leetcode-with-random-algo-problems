@@ -1,0 +1,53 @@
+bool usingBFS(TreeNode* p, TreeNode* q)
+    {
+        queue<TreeNode*> q1;
+        queue<TreeNode*> q2;
+
+        q1.push(p);
+        q2.push(q);
+
+        TreeNode* v1;
+        TreeNode* v2;
+
+        while(!q1.empty() && !q2.empty())
+        {
+            if((q1.empty() && !q2.empty()) || (!q1.empty() && q2.empty())) 
+                return false;
+            
+            v1 = q1.front();
+            v2 = q2.front();
+
+            if(v1 != nullptr && v2 != nullptr)
+            {
+                if(v1->val != v2->val)
+                {
+                    return false;
+                }
+
+                q1.pop();
+                q2.pop();   
+
+                q1.push(v1->left);
+                q1.push(v1->right);
+
+                q2.push(v2->left);
+                q2.push(v2->right);
+            }
+            else if((v1 == nullptr && v2 != nullptr) ||
+                     (v1 != nullptr && v2 == nullptr)) return false;
+            else if(v1 == nullptr && v2==nullptr) 
+            {
+                q1.pop();
+                q2.pop();
+            }
+             
+        }
+
+        return true;
+
+    }
+
+    bool isSameTree(TreeNode* p, TreeNode* q) 
+    {
+        return usingBFS(p, q);
+    }
