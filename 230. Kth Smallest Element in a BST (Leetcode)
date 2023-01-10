@@ -1,0 +1,17 @@
+    void inorderHelper(TreeNode* root, int k, int &i, int &temp)
+    {
+        if(root == nullptr) return;
+
+        inorderHelper(root->left, k, i, temp);
+        i++;
+        if(i == k) temp = root->val;
+        inorderHelper(root->right, k, i, temp);
+
+    }
+
+    int kthSmallest(TreeNode* root, int k) 
+    {
+        int temp, i = 0;
+        inorderHelper(root, k, i, temp);
+        return temp; 
+    }
