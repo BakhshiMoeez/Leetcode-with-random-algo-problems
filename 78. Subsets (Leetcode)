@@ -1,0 +1,38 @@
+   //BackTracking Solution
+    void helper(vector<vector<int>> &ans, vector<int> nums, vector<int> &temp, int j)
+    {
+        ans.push_back(temp);
+        for(int i = j; i < nums.size(); i++)
+        {
+            temp.push_back(nums[i]);
+            helper(ans, nums, temp, i+1);
+            temp.pop_back();
+        }
+    }
+    
+    vector<vector<int>> subsets(vector<int>& nums)
+    {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        helper(ans, nums, temp, 0);
+        return ans;
+    }
+
+    // Iterative Solution 
+     vector<vector<int>> subsets(vector<int>& nums)
+     {
+         vector<vector<int>> ans;
+         ans.push_back({});
+
+         for(auto num : nums)
+         {
+             int size = ans.size();
+             for(int j = 0; j < size; j++)
+             {
+                 ans.push_back(ans[j]);
+                 ans.back().push_back(num);
+             }
+         }
+
+         return ans;
+    } 
