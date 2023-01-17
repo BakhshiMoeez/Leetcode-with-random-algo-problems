@@ -1,0 +1,43 @@
+void MorrisTraversal(TreeNode* root, vector<int> &ans)
+    {
+        TreeNode* curr = root;
+        TreeNode* pre;  // It would point to predecessor
+
+        while(curr != nullptr)
+        {
+            if(curr->left == nullptr)
+            {
+                ans.push_back(curr->val);
+                curr = curr->right;
+            }
+            else
+            {
+                pre = curr->left;
+                while(pre->right != nullptr && pre->right != curr)
+                {
+                    pre = pre->right;
+                }
+                
+                if(pre->right == nullptr)
+                {
+                    pre->right = curr;
+                    curr = curr->left;
+                }
+                else
+                {
+                    pre->right = nullptr;
+                    ans.push_back(curr->val);
+                    curr = curr->right;
+                }
+            }
+        }
+
+    }
+
+    vector<int> inorderTraversal(TreeNode* root) 
+    {
+        if(root == nullptr) return {};
+        vector<int> ans;
+        MorrisTraversal(root, ans);
+        return ans;
+    }
