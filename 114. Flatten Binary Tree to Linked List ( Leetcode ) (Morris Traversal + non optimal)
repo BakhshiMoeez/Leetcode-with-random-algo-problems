@@ -1,0 +1,41 @@
+    /* 
+        Video link: https://www.youtube.com/watch?v=2BdY9fixMrM
+    */
+    // ---- optimal solution -----
+    void flatten(TreeNode* root) 
+    {
+        TreeNode* curr = root;
+        while(curr != nullptr)
+        {
+            if(curr->left != nullptr)
+            {
+                TreeNode* pre = curr->left;
+                while(pre->right != nullptr) pre = pre->right;
+                pre->right = curr->right;
+                curr->right = curr->left;
+                curr->left = nullptr;
+            }
+            curr = curr->right;
+        }
+    }
+
+    // --- not optimal solution ----
+    // void preOrder(TreeNode* root, vector<TreeNode*> &head)
+    // {
+    //     if(root == nullptr) return;
+
+    //     head.push_back(root);
+    //     preOrder(root->left, head);
+    //     preOrder(root->right, head);
+    // }
+
+    // void flatten(TreeNode* root) 
+    // {
+    //     vector<TreeNode*> head;
+    //     preOrder(root, head);
+    //     for(int i = 1; i < head.size(); i++)
+    //     {
+    //         head[i-1]->left = nullptr;
+    //         head[i-1]->right = head[i];
+    //     }
+    // }
