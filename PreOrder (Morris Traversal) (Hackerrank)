@@ -1,0 +1,31 @@
+void preOrder(Node *curr) 
+    {
+        while(curr != nullptr)
+        {
+            if(curr->left)
+            { 
+                Node* pred = curr->left;
+                while(pred->right != NULL && pred->right != curr)
+                {
+                    pred = pred->right;
+                }
+                
+                if(pred->right == nullptr)
+                {
+                    std::cout << curr->data << " ";
+                    pred->right = curr;
+                    curr = curr->left;
+                }
+                else if(pred->right == curr)
+                {
+                    pred->right = nullptr;
+                    curr = curr->right;
+                }
+            }
+            else
+            {
+                std::cout << curr->data << " ";
+                curr = curr->right;
+            }
+        }
+    }
