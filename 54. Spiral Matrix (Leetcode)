@@ -1,0 +1,79 @@
+vector<int> spiralOrder(vector<vector<int>>& matrix) 
+    {
+        int i = 0, j = 0, k = 0;
+        vector<int> ans;
+        int sizeOfMatrix = matrix.size() * matrix[i].size();
+
+        bool incRow = false, incCol = true, decRow = false, decCol = false;
+        vector<int> row(matrix.size(), 1);
+        vector<int> col(matrix[0].size(), 1);
+
+        while(k < sizeOfMatrix)
+        {
+            while(incCol == true)
+            {
+                ans.push_back(matrix[i][j]);
+                j++;
+                k++;
+                if(k >= sizeOfMatrix) break;
+                if(j >= matrix[0].size() || col[j] == 0)
+                {
+                    row[i] = 0;
+                    incCol = false;
+                    incRow = true;
+                    i++;
+                    j--;
+                }
+            }
+            
+            while(incRow == true)
+            {
+                ans.push_back(matrix[i][j]);
+                i++;
+                k++;
+                if(k >= sizeOfMatrix) break;
+                if(i >= matrix.size() || row[i] == 0)
+                {
+                    col[j] = 0;
+                    decCol = true;
+                    incRow = false;
+                    i--;
+                    j--;
+                }
+            }
+
+            while(decCol == true)
+            {
+                ans.push_back(matrix[i][j]);
+                j--;
+                k++;
+                if(k >= sizeOfMatrix) break;
+                if(j < 0 || col[j] == 0)
+                {
+                    row[i] = 0;
+                    decCol = false;
+                    decRow = true;
+                    i--;
+                    j++;
+                }
+            }
+
+            while(decRow == true)
+            {
+                ans.push_back(matrix[i][j]);
+                i--;
+                k++;
+                if(k >= sizeOfMatrix) break;
+                if(i < 0 || row[i] == 0)
+                {
+                    col[j] = 0;
+                    decRow = false;
+                    incCol = true;
+                    i++;
+                    j++;
+                }
+            }
+        }
+
+        return ans;
+    }
