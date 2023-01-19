@@ -1,0 +1,26 @@
+ bool checkInclusion(string s1, string s2) 
+    {
+        if(s1.size() > s2.size()) return false;
+
+        bool flag = false;
+        int start = 0;
+        sort(s1.begin(), s1.end());
+        
+        int sizeS1 = s1.size();
+        string temp;
+        
+        while(start+sizeS1 <= s2.size())
+        {
+            temp = s2.substr(start, sizeS1);
+            sort(temp.begin(), temp.end());
+            if(s1 == temp)
+            {
+                flag = true;
+                break;
+            }
+            temp = "";
+            start = start + 1;      
+        } 
+
+        return flag;
+    }
