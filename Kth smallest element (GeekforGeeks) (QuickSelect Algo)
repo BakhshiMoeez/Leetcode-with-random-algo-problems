@@ -1,0 +1,29 @@
+int quickSelect(int arr[], int begin, int end, int k)
+    {
+        int i = begin, j = begin + 1;
+        while(j < end+1)
+        {
+            if(arr[i] > arr[j])
+            {
+                swap(arr[i], arr[j]);
+                i++;
+                swap(arr[i], arr[j]);
+            }
+            j++;
+        }
+        
+        if(i+1 == k) 
+            return arr[i];
+        else if(i+1 < k)
+            return quickSelect(arr, i+1, end, k);
+        else
+            return quickSelect(arr, begin, i-1, k);
+            
+        return -1;
+    }
+    
+    int kthSmallest(int arr[], int l, int r, int k)
+    {
+        // We shall be using the approach of Quick Select to find the Kth smallest Element
+        return quickSelect(arr, l, r, k);
+    }
