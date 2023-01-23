@@ -1,0 +1,32 @@
+void removeLoop(Node* head)
+    {
+        Node *slow = head;
+        Node *fast = head;
+        Node *temp = nullptr;
+        bool loopExist = false;
+        
+        while(fast != nullptr && fast->next!=nullptr)
+        {
+            temp = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+            if(fast == slow)
+            {
+                loopExist = true;
+                break;
+            } 
+        }
+        
+        if(loopExist == false) return;
+        
+        fast = head;
+        
+        while(fast != slow)
+        {
+            temp = temp->next;
+            slow = slow->next;
+            fast = fast->next;
+        }
+        
+        temp->next = nullptr;
+    }
