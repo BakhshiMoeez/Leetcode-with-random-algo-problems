@@ -1,0 +1,22 @@
+int maxArea(vector<int>& height) 
+    {
+        int size = height.size()-1;
+        int h1 = 0, h2 = size; 
+        int maxArea = 0;
+        int area = 0;
+        
+        while(h1 < h2)
+        {
+            area = min(height[h1], height[h2]) * (h2-h1);
+            maxArea = (area > maxArea) ? area : maxArea;
+            if(height[h1] < height[h2]) h1++;
+            else if (height[h1] > height[h2]) h2--;
+            else
+            {
+                h1++;
+                h2--;
+            }
+        }
+
+        return maxArea;
+    }
