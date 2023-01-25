@@ -1,0 +1,49 @@
+
+// OPTIMISED: If tree is balanced send the height otherwise send -1 
+    int helper(Node *root)
+    {
+        if(root == NULL) return 0;
+        
+        int lh = helper(root->left);
+        if(lh == -1) return -1;
+        int rh = helper(root->right);
+        if(rh == -1) return -1;
+        
+        if(abs(lh-rh) > 1) return -1;
+        return max(lh, rh)+1;
+    }
+    
+    bool isBalanced(Node *root)
+    {
+        bool flag = (helper(root)) == -1 ? false : true; 
+        return flag;
+     }
+
+// ============ Brute Force ======================
+
+// Code to find the height of the tree from the respective node
+int findingDepth(Node * root)
+    {
+        if(root == nullptr) return 0;
+        
+        int leftHeight = findingDepth(root->left);
+        int rightHeight = findingDepth(root->right);
+        
+        if(leftHeight > rightHeight) return leftHeight+1;
+        else return rightHeight+1;
+    }
+    //Function to check whether a binary tree is balanced or not.
+    bool isBalanced(Node *root)
+    {
+       if(root == nullptr) return true;
+       
+       int lh = findingDepth(root->left);
+       int lr = findingDepth(root->right);
+       
+       if(abs(lh - lr) > 1) return false;
+       
+       bool left = isBalanced(root->left);
+       bool right = isBalanced(root->right);
+       
+       return left && right;
+    }
