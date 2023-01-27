@@ -1,0 +1,34 @@
+    void nextPermutation(vector<int>& nums) 
+    {
+        int infptr = -1;
+        int breakPoint = infptr;
+
+        for(int i = nums.size()-1; i > 0; i--)
+        {
+            if(nums[i-1] < nums[i])
+            {
+                breakPoint = i-1;
+                infptr = i;
+                break;
+            }
+        }
+
+        if(infptr == -1)
+        {
+            sort(nums.begin(), nums.end());
+        }
+        else
+        {
+            int min = infptr;
+            for(int j = infptr+1; j < nums.size(); j++)
+            {
+                if(nums[j] > nums[breakPoint] && nums[j] <= nums[min])
+                {
+                    min = j;
+                }
+            }
+
+            swap(nums[breakPoint], nums[min]);
+            sort(nums.begin()+infptr, nums.end());
+        }
+    }
