@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void moveZeroesToRight(vector<int> &v)
+{
+  int j = 0;
+  int i = 0;
+  while(i < v.size())
+  {
+    if(v[i] != 0)
+    {
+      v[j] = v[i];
+      j++;
+    }
+    i++;
+  }
+  
+  while(j < v.size()) 
+  {
+    v[j] = 0;
+    j++;
+  }
+}
+
+void printVector(vector<int> v)
+{
+  for(auto i : v)
+  {
+    cout << i << " ";
+  }
+}
+
+int main()
+{
+  vector<int> v{1,0,3,2,0,3,1,0,1};
+  
+  printVector(v);
+  cout << endl;
+  
+  moveZeroesToRight(v);
+  cout << endl;
+  
+  printVector(v);
+  
+  return 0;
+}
