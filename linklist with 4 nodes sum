@@ -1,0 +1,28 @@
+#include <iostream>
+
+struct Node {
+    int data;
+    Node *ptr1;
+    Node *ptr2;
+    Node *ptr3;
+    Node *ptr4;
+};
+
+int sumData(Node *head) {
+    if (head == nullptr) {
+        return 0;
+    }
+    return head->data + sumData(head->ptr1) + sumData(head->ptr2) + sumData(head->ptr3) + sumData(head->ptr4);
+}
+
+int main() {
+    // Example linked list
+    Node n1 = {1, nullptr, nullptr, nullptr, nullptr};
+    Node n2 = {2, &n1, nullptr, nullptr, nullptr};
+    Node n3 = {3, &n1, &n2, nullptr, nullptr};
+    Node n4 = {4, &n2, nullptr, &n3, nullptr};
+    Node *head = &n4;
+    int sum = sumData(head);
+    cout << "Sum of data of all nodes: " << sum << endl;
+    return 0;
+}
