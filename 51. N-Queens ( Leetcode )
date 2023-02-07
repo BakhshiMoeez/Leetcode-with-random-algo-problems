@@ -1,0 +1,72 @@
+class Solution {
+public:
+    bool isSafe(int size, int row, int col,  vector<string> testBoard)
+    {
+        int tempCol = col;
+        int tempRow = row;
+
+        while(row >= 0 && col >= 0)
+        {
+            if(testBoard[row][col] == 'Q') return false;
+            row--;
+            col--;
+        }
+
+        col = tempCol;
+        row = tempRow;
+
+        while( col >= 0)
+        {
+            if(testBoard[row][col] == 'Q') return false;
+            col--;
+        }
+
+        col = tempCol;
+        row = tempRow;
+
+        while(row < size && col >= 0)
+        {
+            if(testBoard[row][col] == 'Q') return false;
+            row++;
+            col--;
+        }
+
+        return true;
+    }
+
+    void helper(vector<vector<string>> &chessBoard, vector<string> &testBoard, int col, int size)
+    {   
+        if(col == size)
+        {
+            chessBoard.push_back(testBoard);
+            return;
+        }
+
+        // doing simple backtracking
+        for(int i = 0; i < size; i++)
+        {
+            if(isSafe(size, i, col, testBoard))
+            {
+                testBoard[i][col] = 'Q';
+                helper(chessBoard, testBoard, col+1, size);
+                testBoard[i][col] = '.';
+            }
+        }
+    }
+
+    vector<vector<string>> solveNQueens(int n) 
+    {
+        vector<vector<string>> chessBoard;
+        
+        // doing this to make the board according to the 
+        // given questions requirment
+        vector<string> testBoard(n);
+        string s(n, '.');
+        for(int i = 0; i < n; i++) testBoard[i] = s;
+        
+        int col = 0;
+        helper(chessBoard, testBoard, col, n);
+        
+        return chessBoard;
+    }
+};
