@@ -1,0 +1,17 @@
+bool helper(Node* left, Node* right)
+    {
+        if(left == NULL && right == NULL) return true;
+        
+        if(left == NULL || right == NULL) return false;
+        
+        if(left->data != right->data) return false;
+        
+        return helper(left->left, right->right) && helper(left->right, right->left);
+    }
+
+    public:
+    bool isSymmetric(struct Node* root)
+    {
+	    if(root == nullptr) return true;
+	    return helper(root->left, root->right);
+    }
