@@ -1,0 +1,82 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+    Node* getNextPtr(Node* root)
+    {
+        Node* temp = root;
+        temp = temp->next;
+
+        while(temp != nullptr)
+        {
+            if(temp->left)
+                return temp->left;
+            else if(temp->right)
+                return temp->right;
+            temp = temp->next;
+        }
+
+        return nullptr;
+    }
+
+public:
+    Node* connect(Node* root) 
+    {
+        if(!root) return nullptr;
+
+        Node * temp = root;
+
+        root->next = nullptr;
+
+        while(temp != nullptr)
+        {
+            Node* head = temp;
+
+            while(head != nullptr)
+            {
+                if(head->left)
+                {
+                    if(head->right)
+                    {
+                        head->left->next = head->right;
+                    }
+                    else
+                    {
+                        head->left->next = getNextPtr(head);
+                    }
+                }
+
+                if(head->right)
+                {
+                    head->right->next = getNextPtr(head);
+                }
+
+                head = head->next;
+            }
+
+            if(temp->left)
+                temp = temp->left;
+            else if(temp->right)
+                temp = temp->right;
+            else
+                temp = getNextPtr(temp); 
+        }   
+
+        return root;
+    }
+};
