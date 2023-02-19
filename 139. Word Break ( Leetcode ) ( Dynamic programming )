@@ -1,0 +1,46 @@
+class Solution {
+public:
+    bool isInDict(string s, unordered_map<string, int> umap)
+    {
+        if(umap.find(s) != umap.end()) return true;
+        return false;
+    }
+
+    bool helper(string s, unordered_map<string, int> umap, int i, vector<int> &dp)
+    {
+        if(i == s.size()) return true;
+
+        if(dp[i] != -1) return dp[i];
+        string temp;
+        for(int k = 1, j = i; j < s.size(); j++, k++)
+        {
+            temp = s.substr(i, k);
+            if(isInDict(temp, umap))
+            {
+                if(helper(s, umap, j+1, dp))
+                {
+                    dp[i] = 1;
+                    return dp[i];
+                }
+            }
+        }
+        
+        dp[i] = 0;
+        return dp[i];
+    }
+
+    bool wordBreak(string s, vector<string>& wordDict) 
+    {
+        int size = s.size();
+        vector<int> dp(301, -1);
+
+        unordered_map<string, int> umap;
+        for(int i = 0; i < wordDict.size(); i++)
+        {
+            umap[wordDict[i]]++;
+        }
+        
+        int i = 0;
+        return helper(s, umap, i, dp);
+    }
+};
