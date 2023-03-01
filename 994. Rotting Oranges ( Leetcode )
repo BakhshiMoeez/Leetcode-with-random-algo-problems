@@ -1,0 +1,64 @@
+class Solution {
+public:
+    int BFSHelper(vector<vector<int>>& grid, queue<pair<int, int>> q, int& freshOrange)
+    {
+        int time = 0;
+
+        int dx[] = {1,-1,0,0};
+        int dy[] = {0,0,1,-1};
+
+        while(!q.empty())
+        {
+            int size = q.size();
+
+            while(size != 0)
+            {
+                auto temp = q.front();
+                q.pop();
+                size = size - 1;
+
+                for(int i = 0; i < 4; i++)
+                {
+                    int x = temp.first + dx[i];
+                    int y = temp.second + dy[i];
+
+                    if( x >= 0 && x < grid.size() && y >= 0 && y < grid[0].size() && grid[x][y] == 1)
+                    {
+                        q.push({x, y});
+                        grid[x][y] = 2;
+                        freshOrange--;
+                    }
+                }
+            }
+
+            time++;
+        }
+
+        return --time;
+    }
+
+    int orangesRotting(vector<vector<int>>& grid) 
+    {
+        int time = 0;
+        int freshOrange = 0;
+
+        int row = grid.size();
+        int col = grid[0].size();
+
+        queue<pair<int, int>> q;
+
+        for(int i = 0; i < row; i++)
+        {
+            for(int j = 0; j < col; j++)
+            {
+                if(grid[i][j] == 1) freshOrange++;
+                else if(grid[i][j] == 2) q.push({i, j});
+            }
+        }
+
+        if(freshOrange == 0) return 0;
+        time = BFSHelper(grid, q, freshOrange);
+        if(freshOrange != 0) return -1;
+        return time;
+    }
+};
