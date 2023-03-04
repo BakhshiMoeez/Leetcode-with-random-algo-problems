@@ -1,0 +1,49 @@
+class Solution{
+public:
+    Node* divide(int N, Node *head)
+    {
+        Node* evenPtr = NULL;
+        Node* oddPtr = NULL;
+        Node* even = NULL;
+        Node* odd = NULL;
+        
+        Node* temp = head;
+        
+        while(temp != NULL)
+        {
+            if(temp->data % 2 == 0)
+            {
+                if(evenPtr == NULL)
+                {
+                    evenPtr = temp;
+                    even = temp;
+                }
+                else
+                {
+                    even->next = temp;
+                    even = even->next;
+                }
+            }
+            else
+            {
+                if(oddPtr == NULL)
+                {
+                    oddPtr = temp;
+                    odd = temp;
+                }
+                else
+                {
+                    odd->next = temp;
+                    odd = odd->next;
+                }
+            }
+            
+            temp = temp->next;
+        }
+        
+        if(even) even->next = oddPtr;
+        if(odd) odd->next = NULL;
+        if(evenPtr) return evenPtr;
+        return oddPtr;
+    }
+};
