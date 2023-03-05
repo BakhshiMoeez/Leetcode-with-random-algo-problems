@@ -1,0 +1,51 @@
+class Solution {
+public:
+    void reverse(ListNode* start, ListNode* end)
+    {
+        ListNode* curr = start;
+        ListNode* next = start->next;
+        ListNode* prev = nullptr;
+
+        while(prev != end)
+        {
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+            if(next != nullptr) next = next->next;
+        }
+    }
+
+    ListNode* reverseKGroup(ListNode* head, int k) 
+    {
+        if(head == nullptr || head->next == nullptr || k == 1) return head;
+
+        ListNode *dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode *beforeStart = dummy;
+        ListNode *end = head;
+
+        int i = 0;
+        while(end != nullptr)
+        {
+            i++;
+            if(i % k == 0)
+            {
+                // commit reversal
+                ListNode *start = beforeStart->next;
+                ListNode *temp = end->next;
+                reverse(start, end);
+                beforeStart->next = end;
+                start->next = temp;
+                beforeStart = start;
+                end = temp;
+            }
+            else
+            {
+                end = end->next;
+            }
+
+        }
+
+        return dummy->next;
+    }
+};
