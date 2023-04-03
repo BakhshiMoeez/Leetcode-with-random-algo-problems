@@ -1,0 +1,56 @@
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) 
+    {
+        int rows = board.size();
+        if (rows == 0) return; 
+        int cols = board[0].size();
+        if (cols == 0) return;
+        
+        int x[] = {0, 0, 1, -1, 1, -1, -1, 1};
+        int y[] = {1, -1, 0, 0, 1, -1, 1, -1};
+
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < cols; j++)
+            {
+                int temp;
+                int counter = 0;
+                for(int k = 0; k < 8; k++)
+                {
+                    int xParam = i + x[k];
+                    int yParam = j + y[k];
+
+                    if(xParam < 0 || xParam > rows-1 || yParam < 0 || yParam > cols-1)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        temp = board[xParam][yParam];
+                        temp = temp%2;
+                        if (temp == 1) counter++;
+                    }
+                }
+
+                if(board[i][j] == 1 && counter == 2) board[i][j] = board[i][j]+2;
+                if(counter == 3) board[i][j] = board[i][j]+2;
+            }
+        } 
+
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < cols; j++)
+            {
+                if(board[i][j] > 1)
+                {
+                    board[i][j] = 1;
+                }
+                else
+                {
+                    board[i][j] = 0;
+                }
+            }
+        }  
+    }
+};
