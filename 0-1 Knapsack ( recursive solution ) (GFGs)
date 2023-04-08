@@ -1,0 +1,27 @@
+class Solution
+{
+    int helper(int W, int wt[], int val[], int n)
+    {
+        if(n == 0)
+        {
+           if(wt[0] <= W) return val[0];
+           return 0;
+        }
+       
+        int notTake = 0 + helper(W, wt, val, n-1);
+        int take = INT_MIN;
+        if(wt[n] <= W)
+        {
+            take = val[n] + helper(W - wt[n], wt, val, n-1);
+        }
+       
+       return max(take, notTake);
+    }
+    
+    public:
+    //Function to return max value that can be put in knapsack of capacity W.
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+      return helper(W, wt, val, n-1);
+    }
+};
