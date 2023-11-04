@@ -1,0 +1,144 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    private static long dfs(Map<Integer, List<Integer>> adjList, boolean[] visited, int city) {
+        visited[city] = true;
+        long connectedCities = 1;
+
+        for (int neighbor : adjList.getOrDefault(city, Collections.emptyList())) {
+            if (!visited[neighbor]) {
+                connectedCities += dfs(adjList, visited, neighbor);
+            }
+        }
+
+        return connectedCities;
+    }
+    
+    public static long roadsAndLibraries(int n, int c_lib, int c_road, List<List<Integer>> cities) {
+        
+        if (c_lib <= c_road) {
+            return (long) n * c_lib; // It's more cost-effective to build libraries everywhere
+        }
+
+        // Create an adjacency list to represent the cities and roads
+        Map<Integer, List<Integer>> adjList = new HashMap<>();
+        for (List<Integer> roadConnection : cities) {
+            int city1 = roadConnection.get(0);
+            int city2 = roadConnection.get(1);
+
+            adjList.computeIfAbsent(city1, k -> new ArrayList<>()).add(city2);
+            adjList.computeIfAbsent(city2, k -> new ArrayList<>()).add(city1);
+        }
+
+        boolean[] visited = new boolean[n+1];
+        long totalCost = 0;
+
+        for (int i = 1; i <= n; i++) {
+            if (!visited[i]) {
+                long connectedCities = dfs(adjList, visited, i);
+                totalCost = totalCost + c_lib + (connectedCities - 1) * c_road;
+            }
+        }
+
+        return totalCost;
+        
+    //     MY SOLUTION NOT WORKING THERE SEEMS TO BE A PROBLEM
+    //     long result = 0;
+    //     Map<Integer, List<Integer>> record;
+    //     Map<Integer, Boolean> isConnected;
+        
+    //     if(c_lib <= c_road) {
+    //         result = c_lib * (long) n;
+    //     } else {
+    //         record = new HashMap<>();
+    //         isConnected = new HashMap<>();
+    //         // Here I am making a Map which would accumulate cities connected to a
+    //         // common city, like if 2 is connected to 3, 5, 6 then each entry would
+    //         // contain "2 : [3, 5, 6]"
+    //         for(List<Integer> roadConnection : cities) {
+    //             if(record.containsKey(roadConnection.get(0))) {
+    //                 List<Integer> connectedCities = record.get(roadConnection.get(0));
+    //                 connectedCities.add(roadConnection.get(1));
+    //                 record.put(roadConnection.get(0), connectedCities);
+    //             } else {
+    //                 List<Integer> connectedCities = new ArrayList<>();
+    //                 connectedCities.add(roadConnection.get(1));
+    //                 record.put(roadConnection.get(0), connectedCities);
+    //             }
+    //         }
+            
+    //         for(Map.Entry<Integer, List<Integer>> entry : record.entrySet()) {
+    //             if(!isConnected.containsKey(entry.getKey())) {
+    //                 result = result + c_lib;
+    //             }
+    //             for(var city : entry.getValue()) {
+    //                 if(!isConnected.containsKey(city)) {
+    //                     result = result + c_road;
+    //                     isConnected.put(city, true);
+    //                 }
+    //             }
+    //         }
+    //     }
+        
+    //     return result;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        IntStream.range(0, q).forEach(qItr -> {
+            try {
+                String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+                int n = Integer.parseInt(firstMultipleInput[0]);
+
+                int m = Integer.parseInt(firstMultipleInput[1]);
+
+                int c_lib = Integer.parseInt(firstMultipleInput[2]);
+
+                int c_road = Integer.parseInt(firstMultipleInput[3]);
+
+                List<List<Integer>> cities = new ArrayList<>();
+
+                IntStream.range(0, m).forEach(i -> {
+                    try {
+                        cities.add(
+                            Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                                .map(Integer::parseInt)
+                                .collect(toList())
+                        );
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+
+                long result = Result.roadsAndLibraries(n, c_lib, c_road, cities);
+
+                bufferedWriter.write(String.valueOf(result));
+                bufferedWriter.newLine();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
