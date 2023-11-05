@@ -1,0 +1,31 @@
+class Solution {
+    public boolean closeStrings(String word1, String word2) {
+        if(word1.length() != word2.length()) return false;
+
+        boolean result = false;
+        Set<Character> alphabets = new HashSet<>();
+
+        for(int i = 0; i < word1.length(); i++) {
+            alphabets.add(word1.charAt(i));
+        }
+        
+        for(int j = 0; j < word2.length(); j++) {
+            if(!alphabets.contains(word2.charAt(j))) return false;
+        }
+
+        int [] firstWordFreq = new int[26];
+        int [] secondWordFreq = new int[26];
+
+        for(int k = 0; k < word1.length(); k++) {
+            firstWordFreq[word1.charAt(k) - 'a']++;
+            secondWordFreq[word2.charAt(k) - 'a']++;
+        }
+
+        Arrays.sort(firstWordFreq);
+        Arrays.sort(secondWordFreq);
+
+        result = Arrays.equals(firstWordFreq, secondWordFreq);
+
+        return result;
+    }
+}
