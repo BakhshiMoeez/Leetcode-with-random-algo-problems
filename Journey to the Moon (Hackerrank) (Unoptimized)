@@ -1,0 +1,110 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    // private static boolean isFromSameCountry(Map<Integer, List<Integer>> record, int person, int neighbour) {
+    //     boolean result = false;
+    //     for(int ppl : record.getOrDefault(person, Collections.emptyList())) {
+    //         if (ppl == neighbour) {
+    //             result = true;
+    //         } 
+    //     }
+    //     return result;
+    // }
+    
+    private static boolean isFromSameCountry(Map<Integer, List<Integer>> record, int person, int neighbour) {
+        boolean result = false;
+        Set<Integer> visited = new HashSet<>();
+        Stack<Integer> stack = new Stack<>();
+        stack.push(person);
+
+        while (!stack.isEmpty()) {
+            int currentPerson = stack.pop();
+            visited.add(currentPerson);
+
+            if (currentPerson == neighbour) {
+                result = true;
+                break;
+            }
+
+            for (int neighbor : record.getOrDefault(currentPerson, Collections.emptyList())) {
+                if (!visited.contains(neighbor)) {
+                    stack.push(neighbor);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static int journeyToMoon(int n, List<List<Integer>> astronaut) {
+        int result = 0;
+        Map<Integer, List<Integer>> adjList = new HashMap<>();
+        
+        for(List<Integer> pplWithSameCntry : astronaut) {
+            int firstPrsn = pplWithSameCntry.get(0);
+            int secondPrsn = pplWithSameCntry.get(1);
+            
+            adjList.computeIfAbsent(firstPrsn, k -> new ArrayList<>()).add(secondPrsn);
+            adjList.computeIfAbsent(secondPrsn, k -> new ArrayList<>()).add(firstPrsn);
+        }
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = i; j < n; j++) {
+                if(i != j) {
+                    if(!isFromSameCountry(adjList, i, j)) {
+                        result++;
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int n = Integer.parseInt(firstMultipleInput[0]);
+
+        int p = Integer.parseInt(firstMultipleInput[1]);
+
+        List<List<Integer>> astronaut = new ArrayList<>();
+
+        IntStream.range(0, p).forEach(i -> {
+            try {
+                astronaut.add(
+                    Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                        .map(Integer::parseInt)
+                        .collect(toList())
+                );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        int result = Result.journeyToMoon(n, astronaut);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
