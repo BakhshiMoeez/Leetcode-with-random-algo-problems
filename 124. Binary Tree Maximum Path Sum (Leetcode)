@@ -1,0 +1,57 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private int calculateMaxPathSum(TreeNode root, int [] maximum) {
+        if(root == null) return 0;
+
+        int left = calculateMaxPathSum(root.left, maximum);
+        int right = calculateMaxPathSum(root.right, maximum);
+
+        int currentSum = Math.max(root.val, Math.max(left + root.val, right + root.val));
+        maximum[0] = Math.max(maximum[0], Math.max(currentSum, left + right + root.val));
+
+        return currentSum;
+    }
+
+    public int maxPathSum(TreeNode root) {
+        if(root == null) return Integer.MIN_VALUE; // Handle empty tree case
+        int [] maximum = {Integer.MIN_VALUE}; // Initialize to a very small negative value
+        calculateMaxPathSum(root, maximum);
+        return maximum[0];
+    }
+}
+
+// class Solution {
+//     private int calculateMaxPathSum(TreeNode root, int [] maximum) {
+//         if(root == null) return 0;
+
+//         int left = calculateMaxPathSum(root.left, maximum);
+//         int right = calculateMaxPathSum(root.right, maximum);
+
+//         maximum[0] = Math.max(maximum[0], left+right+root.val);
+
+//         return Math.max(left + root.val, right + root.val);
+//     }
+
+//     public int maxPathSum(TreeNode root) {
+//         if(root == null) return Integer.MIN_VALUE;
+//         int [] maximum = {Integer.MIN_VALUE};
+//         calculateMaxPathSum(root, maximum);
+//         return maximum[0];
+//     }
+// }
+
+
