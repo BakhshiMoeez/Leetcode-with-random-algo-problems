@@ -1,0 +1,76 @@
+import java.io.*;
+import java.util.*;
+
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    
+    Node(int val) {
+        this.val = val;
+    }
+}
+
+public class Solution {
+    public static Node insert(Node root, int val) {
+        if(root == null) {
+            root = new Node(val);
+        } else {
+            if(root.val < val) {
+                root.right = insert(root.right, val);
+            } else {
+                root.left = insert(root.left, val);
+            }
+        }
+        return root;
+    }
+    
+    public static void topView(Node root) {
+        if(root == null) return;
+        
+        Queue<Node> nodeQueue = new LinkedList<>();
+        Queue<Integer> horizontalDistanceQueue = new LinkedList<>();
+        TreeMap<Integer, Node> map = new TreeMap<>();
+        
+        nodeQueue.offer(root);
+        horizontalDistanceQueue.offer(0);
+        
+        while (!nodeQueue.isEmpty()) {
+            Node currNode = nodeQueue.poll();
+            int horizontalDistance = horizontalDistanceQueue.poll();
+
+            if (!map.containsKey(horizontalDistance)) {
+                map.put(horizontalDistance, currNode);
+            }
+
+            if (currNode.left != null) {
+                nodeQueue.offer(currNode.left);
+                horizontalDistanceQueue.offer(horizontalDistance - 1);
+            }
+
+            if (currNode.right != null) {
+                nodeQueue.offer(currNode.right);
+                horizontalDistanceQueue.offer(horizontalDistance + 1);
+            }
+        }
+
+    for (Map.Entry<Integer, Node> entry : map.entrySet()) {
+        System.out.print(entry.getValue().val + " ");
+    }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        
+        Node root = null;
+        for(int i = 0; i < n; i++) {
+            int v1 = scanner.nextInt();
+            root = insert(root, v1);
+        }
+        
+        scanner.close();
+        
+        topView(root);
+    }
+}
