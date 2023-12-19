@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+
+ class Solution {
+    private int ans = 0;
+    private static final String LEFT = "left";
+    private static final String RIGHT = "right";
+     
+    void helper(TreeNode root, int dis, String direction) {
+        if (root == null) return;
+        ans = Math.max(ans, dis);
+        if (direction == LEFT) {
+            helper(root.left, dis + 1, RIGHT);
+            helper(root.right, 1, LEFT);
+        } else {
+            helper(root.right, dis + 1, LEFT);
+            helper(root.left, 1, RIGHT);
+        }
+    }
+
+    public int longestZigZag(TreeNode root) {
+        helper(root, 0, LEFT);
+        helper(root, 0, RIGHT);
+        return ans;
+    }
+}
+
