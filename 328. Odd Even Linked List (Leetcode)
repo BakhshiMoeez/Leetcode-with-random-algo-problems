@@ -1,0 +1,92 @@
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode odd = head;
+        ListNode even = head.next;
+        ListNode evenHead = even;
+
+        while (even != null && even.next != null) {
+            odd.next = even.next;
+            odd = odd.next;
+            
+            even.next = odd.next;
+            even = even.next;
+        }
+
+        odd.next = evenHead;
+
+        return head;
+    }
+}
+
+
+// class Solution {
+//     public ListNode oddEvenList(ListNode head) {
+//         if (head == null || head.next == null) return head;
+//         if (head.next.next == null) return head;
+
+//         ListNode resultHead = head;
+//         ListNode evenHead = new ListNode(0);
+//         ListNode oddHead = new ListNode(0);
+//         ListNode oddPrev = null;
+//         ListNode prev = head;
+//         String counter = "odd";
+
+//         while (head != null) {
+//             if (counter.equals("even")) {
+//                 evenHead.next = head;
+//                 evenHead = evenHead.next;
+//                 counter = "odd";
+//             } else if (counter.equals("odd")) {
+//                 oddHead.next = head;
+//                 oddPrev = oddHead;
+//                 oddHead = oddHead.next;
+//                 counter = "even";
+//             }
+//             prev = head;
+//             head = head.next;
+//             prev.next = null;
+//         }
+
+//         oddPrev.next = evenHead.next;
+//         return resultHead;
+//     }
+// }
+
+// class Solution {
+//     public ListNode oddEvenList(ListNode head) {
+//         if(head == null || head.next == null) return head;
+//         if(head.next.next == null) return head;
+
+//         ListNode resultHead = head;
+//         ListNode evenHead = new ListNode(0);
+//         ListNode oddHead = new ListNode(0);
+//         ListNode oddPrev = new ListNode(0);
+//         ListNode prev = new ListNode(head.val);
+//         String counter = "odd";
+
+//         while(head != null) {
+//             if(counter == "even") {
+//                 evenHead.next = prev;
+//                 evenHead = evenHead.next;
+//                 counter = "odd";
+//             } else if (counter == "odd") {
+//                 oddHead.next = prev;
+//                 oddPrev = oddHead;
+//                 oddHead = oddHead.next;
+//                 counter = "even";
+//             }
+//             prev = head;
+//             head = head.next;
+//             prev.next = null;
+//         }
+
+//         oddPrev.next = evenHead;
+//         return resultHead;
+//     }
+// }
+
+
