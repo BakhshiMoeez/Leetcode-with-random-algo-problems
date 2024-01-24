@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+      int[] arr = {12, 45, 7, 23, 56, 89, 2, 10, 67};
+      findMinMax(arr);
+  }
+  public static void findMinMax(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            System.out.println("Array should have at least two elements.");
+            return;
+        }
+
+        int firstLargest = arr[0];
+        int secondLargest = arr[0];
+        int firstSmallest = arr[0];
+        int secondSmallest = arr[0];
+
+        for (int num : arr) {
+            // Finding largest and second largest
+            if (num > firstLargest) {
+                secondLargest = firstLargest;
+                firstLargest = num;
+            } else if (num > secondLargest && num != firstLargest) {
+                secondLargest = num;
+            }
+
+            // Finding smallest and second smallest
+            if (num < firstSmallest) {
+                secondSmallest = firstSmallest;
+                firstSmallest = num;
+            } else if (num < secondSmallest && num != firstSmallest) {
+                secondSmallest = num;
+            }
+        }
+
+        System.out.println("1st Largest: " + firstLargest);
+        System.out.println("2nd Largest: " + secondLargest);
+        System.out.println("1st Smallest: " + firstSmallest);
+        System.out.println("2nd Smallest: " + secondSmallest);
+        int result = (firstLargest * secondLargest) - (firstSmallest * secondSmallest);
+        System.out.println("The result: " + result);
+
+    }
+}
