@@ -1,0 +1,64 @@
+// class Solution {
+//     public int compress(char[] chars) {
+//         if(chars.length == 1) return 1;
+
+//         int len = 1;
+//         int arrPtr = 0;
+//         char currElement = chars[0];
+        
+//         for(int i = 0; i < chars.length-1; i++) {
+//             if(chars[i] != chars[i+1]) {
+//                 chars[arrPtr] = currElement;
+//                 currElement = chars[i+1];
+//                 arrPtr++;
+//                 if(len != 1) {
+//                     if(len > 10) {
+//                         while(len/10 != 0) {
+//                             chars[arrPtr] = (char) len%10;
+//                             len = len/10;
+//                             arrPtr++;
+//                         }
+//                     } else {
+//                         chars[arrPtr] = (char) len;
+//                         arrPtr++;
+//                     }
+//                 }
+//                 len = 1;
+//             } else {
+//                 len++;
+//             }
+//         }
+
+//         return arrPtr;
+//     }
+// }
+
+class Solution {
+    public int compress(char[] chars) {
+        if (chars.length <= 1) return chars.length; // Handle edge case of empty or single character array
+
+        int len = 1;
+        int arrPtr = 0;
+        char currElement = chars[0];
+
+        for (int i = 0; i <= chars.length; i++) {
+            if (i < chars.length && (i == chars.length - 1 || chars[i] != chars[i + 1])) {
+                chars[arrPtr++] = currElement;
+                if (len > 1) {
+                    String lenStr = String.valueOf(len);
+                    for (int j = 0; j < lenStr.length(); j++) {
+                        chars[arrPtr++] = lenStr.charAt(j);
+                    }
+                }
+                if (i != chars.length - 1) {
+                    currElement = chars[i + 1];
+                }
+                len = 1;
+            } else {
+                len++;
+            }
+        }
+
+        return arrPtr;
+    }
+}
