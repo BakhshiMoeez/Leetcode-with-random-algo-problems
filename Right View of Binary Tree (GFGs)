@@ -1,0 +1,23 @@
+class Solution{
+    void helper(Node node, int level, int[] maxLevel, ArrayList<Integer> ans) {
+        if(node == null) return;
+        
+        if(level > maxLevel[0]) {
+            ans.add(node.data);
+            maxLevel[0] = level;
+        }
+          
+        helper(node.right, level+1, maxLevel, ans);
+        helper(node.left, level+1, maxLevel, ans);
+    }
+    //Function to return list containing elements of right view of binary tree.
+    ArrayList<Integer> rightView(Node node) {
+        //add code here.
+        int[] maxLevel = new int[1];
+        ArrayList<Integer> ans = new ArrayList<>();
+        maxLevel[0] = 0;
+        int level = 1;
+        helper(node, level, maxLevel, ans);
+        return ans;
+    }
+}
