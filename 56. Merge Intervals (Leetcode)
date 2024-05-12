@@ -1,0 +1,36 @@
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        List<int[]> listOutput = new ArrayList<>();
+        listOutput.add(intervals[0]);
+
+        for(int i = 1; i < intervals.length; i++) {
+            // Last inserted elemnt in listOutput
+            int[] lastElementInList = listOutput.get(listOutput.size()-1);
+
+            // comparing first and last elemnt of intervals[i]
+            // with last elemnt of lastElementInList to check if overlapping
+            // and || intervals[i][1] <= lastElementInList[1]) check is 
+            // to handle senarios like [[1,4],[2,3]] where 2nd int[] totally gets absorbed 
+            // in last one
+
+            if(intervals[i][0] <= lastElementInList[1] && 
+                (intervals[i][1] >= lastElementInList[1] || intervals[i][1] <= lastElementInList[1])) {
+                // updating lastElementInList upper bound to
+                // max of upper bound of lastElementInList or intervals[i]
+                listOutput.get(listOutput.size()-1)[1] = Math.max(listOutput.get(listOutput.size()-1)[1], intervals[i][1]);
+            } else {
+                listOutput.add(intervals[i]);
+            }
+        }
+
+        // converting list into int[][]
+        int listSize = listOutput.size();
+        int[][] output = new int[listSize][2];
+        for(int i = 0; i < listSize; i++) {
+            output[i] = listOutput.get(i);
+        }
+
+        return output;
+    }
+}
