@@ -1,0 +1,24 @@
+class Solution {
+    private void generateSubsets(Set<List<Integer>> result, List<Integer> current, List<Integer> remaining) {
+        result.add(new ArrayList<>(current));
+
+        for(int i = 0; i < remaining.size(); i++) {
+            List<Integer> newCurrent = new ArrayList<>(current);
+            newCurrent.add(remaining.get(i));
+            List<Integer> newRemaining = new ArrayList<>(remaining.subList(i + 1, remaining.size()));
+            generateSubsets(result, newCurrent, newRemaining);
+        }
+    }
+    
+    public List<List<Integer>> subsets(int[] nums) {
+        
+        Set<List<Integer>> result = new HashSet<>();
+        List<Integer> numsAsList = new ArrayList<>();
+        for (int num : nums) {
+            numsAsList.add(num);
+        }
+        generateSubsets(result, new ArrayList<>(), numsAsList);
+        result.forEach(System.out::println);
+        return new ArrayList<>(result);
+    }
+}
