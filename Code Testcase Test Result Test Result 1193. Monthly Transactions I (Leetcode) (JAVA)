@@ -1,0 +1,11 @@
+# Write your MySQL query statement below
+
+SELECT 
+    DATE_FORMAT(t.TRANS_DATE, '%Y-%m') as month,
+    t.COUNTRY as country,
+    COUNT(*) as trans_count, 
+    SUM(CASE WHEN t.STATE = 'approved' THEN 1 ELSE 0 END) as approved_count,
+    SUM(t.AMOUNT) as trans_total_amount,
+    SUM(CASE WHEN t.STATE = 'approved' THEN t.AMOUNT ELSE 0 END) as approved_total_amount
+ FROM TRANSACTIONS t 
+ GROUP BY t.COUNTRY, DATE_FORMAT(t.TRANS_DATE, '%Y-%m');
