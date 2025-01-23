@@ -1,0 +1,70 @@
+class TrieNode {
+    Map<Character, TrieNode> children; 
+    boolean isEndOfWord;
+
+    TrieNode() {
+        children = new HashMap<>();
+        isEndOfWord = false;
+    }
+}
+
+class Trie {
+    
+    TrieNode root = null;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+    
+    public void insert(String word) {
+        if(!Objects.isNull(word)) {
+            TrieNode current = root;
+            for(char ch : word.toCharArray()) {
+                current.children.putIfAbsent(ch, new TrieNode());
+                current = current.children.get(ch);
+            }
+            current.isEndOfWord = true;
+        }
+    }
+    
+    public boolean search(String word) {
+        boolean result = false;
+        if(!Objects.isNull(word)) {
+            TrieNode current = root;
+            for(char ch : word.toCharArray()) {
+                if(!Objects.isNull(current.children.get(ch))) {
+                    current = current.children.get(ch);
+                } else {
+                    return result;
+                }
+            }
+            result = current.isEndOfWord ? true : false;
+        }
+        return result;
+    }
+    
+    public boolean startsWith(String prefix) {
+        boolean result = false;
+        if(!Objects.isNull(prefix)) {
+            TrieNode current = root;
+            for(char ch : prefix.toCharArray()) {
+                if(!Objects.isNull(current.children.get(ch))) {
+                    current = current.children.get(ch);
+                } else {
+                    return result;
+                }
+            }
+            result = true;
+        }
+        return result;
+    }
+}
+
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
