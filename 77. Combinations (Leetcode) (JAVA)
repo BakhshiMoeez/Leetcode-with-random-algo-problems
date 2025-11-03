@@ -1,0 +1,24 @@
+// Backtracking solution
+
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        helper(result, new ArrayList<>(), n, k, 1);
+        return result;     
+    }
+
+    private void helper(List<List<Integer>> result, List<Integer> combination, int n, int k, int counter) {
+
+        if(combination.size() == k) {
+            result.add(new ArrayList<>(combination));
+            return;
+        }
+
+        for(int i = counter; i <= n; i++) {
+            combination.add(i);
+            helper(result, combination, n, k, i+1);
+            combination.remove(combination.size() - 1);
+        }
+
+    }
+}
