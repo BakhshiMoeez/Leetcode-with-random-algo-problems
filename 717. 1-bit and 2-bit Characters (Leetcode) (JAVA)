@@ -1,0 +1,17 @@
+// Keep track of where the next character starts. At the end, you want to know if you started on the last bit.
+class Solution {
+    public boolean isOneBitCharacter(int[] bits) {
+        boolean result = false;
+        boolean newCharStart = false;
+        for(int i = 0; i < bits.length; i++) {
+            if(bits[i] == 1 && !newCharStart) {
+                newCharStart = true;
+            } else if((bits[i] == 1 || bits[i] == 0) && newCharStart) {
+                newCharStart = false;
+            } else if(i == bits.length - 1 && bits[i] == 0 && !newCharStart) {
+                result = true;
+            }
+        }
+        return result;
+    }
+}
